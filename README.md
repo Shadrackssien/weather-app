@@ -1,2 +1,2 @@
 # weather-app
-Generate the weather of any place you provide in the world. Learning api's
+Generate the weather of any place you provide in the world. This project is to make me understand Api's
