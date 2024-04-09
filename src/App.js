@@ -13,31 +13,34 @@ function App() {
   const [humidity, setHumidity] = useState(null);
   const [wind, setWind] = useState(null);
   const [country, setCountry] = useState(null);
-  const [dataFetch, setDataFetch] = useState(false);
-
-  const API_KEY = "76a1d1e14b93b710e83fa35cc2cca1be"; 
+  const [dataFetch, setDataFetch] = useState(false); 
 
   const fetchData = async (e) => {
     e.preventDefault("");
 
-    const res = await axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${userLocation}&appid=${API_KEY}&units=metric`);
-    const data = await res.data;
+    try {
+      const res = await axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${userLocation}&appid=${process.env.REACT_APP_API_KEY}&units=metric`);
+      const data = await res.data;
 
-    setDegrees(data.main.temp);
-    setLocation(data.name);
-    setDescription(data.weather[0].description);
-    setIcon(data.weather[0].icon)
-    setHumidity(data.main.humidity);
-    setWind(data.wind.speed);
-    setCountry(data.sys.country);
+      setDegrees(data.main.temp);
+      setLocation(data.name);
+      setDescription(data.weather[0].description);
+      setIcon(data.weather[0].icon)
+      setHumidity(data.main.humidity);
+      setWind(data.wind.speed);
+      setCountry(data.sys.country);
 
     setDataFetch(true);
+    }catch(error){
+      console.log(error);
+      alert("Kindly type the correct location or check your internet connection")
+    }
   }
 
   const defaultDataFetch =async () => {
 
     if(!dataFetch){
-      const res = await axios.get(`https://api.openweathermap.org/data/2.5/weather?q=tarkwa&appid=${API_KEY}&units=metric`);
+      const res = await axios.get(`https://api.openweathermap.org/data/2.5/weather?q=tarkwa&appid=${process.env.REACT_APP_API_KEY}&units=metric`);
       const data = await res.data;
   
       setDegrees(data.main.temp);
@@ -53,7 +56,6 @@ function App() {
   useEffect(() => {
     defaultDataFetch();
   }, []);
-  
   return (
     <div className="App">
       <div className='weather'>
